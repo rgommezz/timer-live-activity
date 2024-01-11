@@ -21,6 +21,7 @@
 		50D5B13B2B4EC25400325616 /* TimerWidgetModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D5B13A2B4EC25400325616 /* TimerWidgetModule.swift */; };
 		50D5B13C2B4EC25400325616 /* TimerWidgetModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D5B13A2B4EC25400325616 /* TimerWidgetModule.swift */; };
 		50D5B13E2B4EF18D00325616 /* TImerWidgetBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 50D5B13D2B4EF18D00325616 /* TImerWidgetBridge.m */; };
+		50D5B13F2B4F6DF300325616 /* TimerWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A282FA2B4ADBC9004E633F /* TimerWidgetLiveActivity.swift */; };
 		7699B88040F8A987B510C191 /* libPods-FancyTimer-FancyTimerTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-FancyTimer-FancyTimerTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -495,6 +496,7 @@
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				50D5B13B2B4EC25400325616 /* TimerWidgetModule.swift in Sources */,
+				50D5B13F2B4F6DF300325616 /* TimerWidgetLiveActivity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
