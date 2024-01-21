@@ -21,7 +21,7 @@ class TimerWidgetModule: NSObject {
   
   private func startTimer() {
     DispatchQueue.main.async {
-      self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+      self.timer = Timer.scheduledTimer(withTimeInterval: 0.032, repeats: true) { [weak self] _ in
         guard let strongSelf = self else { return }
         // Update Live Activity with new elapsedTime
         let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: strongSelf.timeManager.getTotalDurationInSeconds())

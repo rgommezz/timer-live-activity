@@ -30,7 +30,7 @@ const useTimer = () => {
 
     intervalId.current = setInterval(() => {
       setElapsedTimeInMs(Date.now() - startTime.current!);
-    }, 1000);
+    }, 32);
   }
 
   function reset() {
