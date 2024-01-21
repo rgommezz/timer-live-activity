@@ -13,7 +13,7 @@
   return NO;
 }
 
-RCT_EXTERN_METHOD(startLiveActivity)
+RCT_EXTERN_METHOD(startLiveActivity:(nonnull NSNumber *)timestamp)
 RCT_EXTERN_METHOD(stopLiveActivity)
 
 @end

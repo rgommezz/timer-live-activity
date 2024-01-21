@@ -11,9 +11,9 @@ import ActivityKit
 
 @objc(TimerWidgetModule)
 class TimerWidgetModule: NSObject {
-  private var elapsedTime: TimeInterval = 0
   private var timer: Timer?
   private var currentActivity: Activity<TimerWidgetAttributes>?
+  private var timeManager = TimeManager()
   
   private func areActivitiesEnabled() -> Bool {
     return ActivityAuthorizationInfo().areActivitiesEnabled
@@ -21,11 +21,10 @@ class TimerWidgetModule: NSObject {
   
   private func startTimer() {
     DispatchQueue.main.async {
-      self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+      self.timer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
         guard let strongSelf = self else { return }
-        strongSelf.elapsedTime += 1
         // Update Live Activity with new elapsedTime
-        let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: Int(strongSelf.elapsedTime))
+        let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: strongSelf.timeManager.getTotalDurationInSeconds())
         Task {
           await strongSelf.currentActivity?.update(
             ActivityContent<TimerWidgetAttributes.ContentState>(
@@ -41,20 +40,21 @@ class TimerWidgetModule: NSObject {
   private func resetValues() {
     timer?.invalidate()
     timer = nil
-    elapsedTime = 0
     currentActivity = nil
   }
   
   @objc
-  func startLiveActivity() -> Void {
+  func startLiveActivity(_ timestamp: NSNumber) -> Void {
     if (!areActivitiesEnabled()) {
       // User disabled Live Activities for the app, nothing to do
       return
     }
+    let timerStartTime = Date(timeIntervalSince1970: timestamp.doubleValue)
+    timeManager.setStartTime(timerStartTime)
     
     // Preparing data for the Live Activity
     let activityAttributes = TimerWidgetAttributes()
-    let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: 0)
+    let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: timeManager.getTotalDurationInSeconds())
     let activityContent = ActivityContent(state: contentState,  staleDate: nil)
     
     do {
