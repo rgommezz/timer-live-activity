@@ -44,12 +44,12 @@ class TimerWidgetModule: NSObject {
   }
   
   @objc
-  func startLiveActivity(_ timestamp: NSNumber) -> Void {
+  func startLiveActivity(_ timestamp: Double) -> Void {
     if (!areActivitiesEnabled()) {
       // User disabled Live Activities for the app, nothing to do
       return
     }
-    let timerStartTime = Date(timeIntervalSince1970: timestamp.doubleValue)
+    let timerStartTime = Date(timeIntervalSince1970: timestamp)
     timeManager.setStartTime(timerStartTime)
     
     // Preparing data for the Live Activity

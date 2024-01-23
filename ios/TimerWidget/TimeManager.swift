@@ -5,6 +5,8 @@
 //  Created by Raúl Gómez Acuña on 21/01/2024.
 //
 
+let LIVE_ACTIVITY_UPDATE_DELAY = 0.5
+
 import Foundation
 
 class TimeManager {
@@ -21,6 +23,6 @@ class TimeManager {
     }
 
     let now = Date()
-    return Int(now.timeIntervalSince1970 - startTime.timeIntervalSince1970)
+    return Int(now.timeIntervalSince1970 - startTime.timeIntervalSince1970 + LIVE_ACTIVITY_UPDATE_DELAY)
   }
 }
