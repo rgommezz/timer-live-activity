@@ -37,9 +37,14 @@ class TimerWidgetModule: NSObject {
     }
   }
   
-  private func resetValues() {
+  private func stopTimer() {
     timer?.invalidate()
-    timer = nil
+    self.timer = nil
+  }
+  
+  private func resetValues() {
+    stopTimer()
+    timeManager.reset()
     currentActivity = nil
   }
   
@@ -74,5 +79,29 @@ class TimerWidgetModule: NSObject {
         await activity.end(nil, dismissalPolicy: .immediate)
       }
     }
+  }
+  
+  @objc
+  func pause(_ timestamp: Double) -> Void {
+    stopTimer()
+    let timerPauseTime = Date(timeIntervalSince1970: timestamp)
+    timeManager.setPauseTime(timerPauseTime)
+    
+    // Update live activity with paused time
+    let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: timeManager.getTotalDurationInSeconds())
+    Task {
+      await currentActivity?.update(
+        ActivityContent<TimerWidgetAttributes.ContentState>(
+          state: contentState,
+          staleDate: nil
+        )
+      )
+    }
+  }
+  
+  @objc
+  func resume() -> Void {
+    timeManager.resume()
+    startTimer()
   }
 }
