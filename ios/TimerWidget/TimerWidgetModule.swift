@@ -11,61 +11,36 @@ import ActivityKit
 
 @objc(TimerWidgetModule)
 class TimerWidgetModule: NSObject {
-  private var timer: Timer?
   private var currentActivity: Activity<TimerWidgetAttributes>?
-  private var timeManager = TimeManager()
+  private var startedAt: Date?
+  private var pausedAt: Date?
   
   private func areActivitiesEnabled() -> Bool {
     return ActivityAuthorizationInfo().areActivitiesEnabled
   }
   
-  private func startTimer() {
-    DispatchQueue.main.async {
-      self.timer = Timer.scheduledTimer(withTimeInterval: 0.032, repeats: true) { [weak self] _ in
-        guard let strongSelf = self else { return }
-        // Update Live Activity with new elapsedTime
-        let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: strongSelf.timeManager.getTotalDurationInSeconds())
-        Task {
-          await strongSelf.currentActivity?.update(
-            ActivityContent<TimerWidgetAttributes.ContentState>(
-              state: contentState,
-              staleDate: nil
-            )
-          )
-        }
-      }
-    }
-  }
-  
-  private func stopTimer() {
-    timer?.invalidate()
-    self.timer = nil
-  }
-  
   private func resetValues() {
-    stopTimer()
-    timeManager.reset()
+    startedAt = nil
+    pausedAt = nil
     currentActivity = nil
   }
   
   @objc
   func startLiveActivity(_ timestamp: Double) -> Void {
+    startedAt = Date(timeIntervalSince1970: timestamp)
     if (!areActivitiesEnabled()) {
       // User disabled Live Activities for the app, nothing to do
       return
     }
-    let timerStartTime = Date(timeIntervalSince1970: timestamp)
-    timeManager.setStartTime(timerStartTime)
     
     // Preparing data for the Live Activity
     let activityAttributes = TimerWidgetAttributes()
-    let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: timeManager.getTotalDurationInSeconds())
+    let contentState = TimerWidgetAttributes.ContentState(startedAt: startedAt, pausedAt: nil)
     let activityContent = ActivityContent(state: contentState,  staleDate: nil)
     
     do {
       // Request to start a new Live Activity with the content defined above
       currentActivity = try Activity.request(attributes: activityAttributes, content: activityContent)
-      startTimer()
     } catch {
       // Handle errors, skipped for simplicity
     }
@@ -83,12 +58,8 @@ class TimerWidgetModule: NSObject {
   
   @objc
   func pause(_ timestamp: Double) -> Void {
-    stopTimer()
-    let timerPauseTime = Date(timeIntervalSince1970: timestamp)
-    timeManager.setPauseTime(timerPauseTime)
-    
-    // Update live activity with paused time
-    let contentState = TimerWidgetAttributes.ContentState(elapsedTimeInSeconds: timeManager.getTotalDurationInSeconds())
+    pausedAt = Date(timeIntervalSince1970: timestamp)
+    let contentState = TimerWidgetAttributes.ContentState(startedAt: startedAt, pausedAt: pausedAt)
     Task {
       await currentActivity?.update(
         ActivityContent<TimerWidgetAttributes.ContentState>(
@@ -101,7 +72,21 @@ class TimerWidgetModule: NSObject {
   
   @objc
   func resume() -> Void {
-    timeManager.resume()
-    startTimer()
+    guard let startDate = self.startedAt else { return }
+    guard let pauseDate = self.pausedAt else { return }
+    
+    let elapsedSincePaused = Date().timeIntervalSince1970 - pauseDate.timeIntervalSince1970
+    startedAt = Date(timeIntervalSince1970: startDate.timeIntervalSince1970 + elapsedSincePaused)
+    pausedAt = nil
+    
+    let contentState = TimerWidgetAttributes.ContentState(startedAt: startedAt, pausedAt: nil)
+    Task {
+      await currentActivity?.update(
+        ActivityContent<TimerWidgetAttributes.ContentState>(
+          state: contentState,
+          staleDate: nil
+        )
+      )
+    }
   }
 }
