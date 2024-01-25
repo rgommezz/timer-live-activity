@@ -1,7 +1,11 @@
-import React from 'react';
-import {NativeModules} from 'react-native';
+import React, {useCallback, useEffect} from 'react';
+import {NativeEventEmitter, NativeModule, NativeModules} from 'react-native';
 
 const {TimerWidgetModule} = NativeModules;
+
+const TimerEventEmitter = new NativeEventEmitter(
+  NativeModules.TimerEventEmitter as NativeModule,
+);
 
 const useTimer = () => {
   const [elapsedTimeInMs, setElapsedTimeInMs] = React.useState(0);
@@ -18,7 +22,7 @@ const useTimer = () => {
 
   const value = `${minutes}:${secondTens}${secondUnits}`;
 
-  function play() {
+  const play = useCallback(() => {
     setIsPlaying(true);
     // Already playing, returning early
     if (intervalId.current) {
@@ -43,26 +47,38 @@ const useTimer = () => {
     intervalId.current = setInterval(() => {
       setElapsedTimeInMs(Date.now() - startTime.current!);
     }, 32);
-  }
+  }, []);
 
-  function pause() {
+  const pause = useCallback(() => {
     setIsPlaying(false);
     removeInterval();
-    if (!pausedTime.current && elapsedTimeInMs > 0) {
+    if (startTime.current && !pausedTime.current) {
       pausedTime.current = Date.now();
       TimerWidgetModule.pause(pausedTime.current / 1000);
       setElapsedTimeInMs(pausedTime.current! - startTime.current!);
     }
-  }
+  }, []);
 
-  function reset() {
+  const reset = useCallback(() => {
     setIsPlaying(false);
     removeInterval();
     startTime.current = null;
     pausedTime.current = null;
     setElapsedTimeInMs(0);
     TimerWidgetModule.stopLiveActivity();
-  }
+  }, []);
+
+  useEffect(() => {
+    const pauseSubscription = TimerEventEmitter.addListener('onPause', pause);
+    const resumeSubscription = TimerEventEmitter.addListener('onResume', play);
+    const resetSubscription = TimerEventEmitter.addListener('onReset', reset);
+
+    return () => {
+      pauseSubscription.remove();
+      resumeSubscription.remove();
+      resetSubscription.remove();
+    };
+  }, [play, pause, reset]);
 
   function removeInterval() {
     if (intervalId.current) {

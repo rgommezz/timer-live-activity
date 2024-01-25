@@ -33,14 +33,18 @@ struct TimerWidgetAttributes: ActivityAttributes {
       let elapsedTimeInSeconds = getElapsedTimeInSeconds()
       let minutes = (elapsedTimeInSeconds % 3600) / 60
       let seconds = elapsedTimeInSeconds % 60
-      return String(format: "%02d:%02d", minutes, seconds)
+      return String(format: "%d:%02d", minutes, seconds)
     }
     
     func getTimeIntervalSinceNow() -> Double {
       guard let startedAt = self.startedAt else {
         return 0
       }
-      return startedAt.timeIntervalSince1970 - LIVE_ACTIVITY_SYNC_DELAY - Date().timeIntervalSince1970
+      return startedAt.timeIntervalSince1970 - Date().timeIntervalSince1970
+    }
+    
+    func isRunning() -> Bool {
+      return pausedAt == nil
     }
   }
 }
@@ -73,23 +77,30 @@ struct TimerWidgetLiveActivity: Widget {
             RoundedRectangle(cornerRadius: 24).strokeBorder(rgb(148, 163, 184), lineWidth: 2)
             HStack {
               HStack(spacing: 8.0, content: {
-                Button(action: {
-                  // Define the action for your button here
-                  print("Play button pressed!")
-                }) {
-                  ZStack {
-                    Circle().fill(Color.orange.opacity(0.5))
-                    Image(systemName: "play.fill")
-                      .imageScale(.large)
-                      .foregroundColor(.orange)
+                if (context.state.isRunning()) {
+                  Button(intent: PauseIntent()) {
+                    ZStack {
+                      Circle().fill(Color.orange.opacity(0.5))
+                      Image(systemName: "pause.fill")
+                        .imageScale(.large)
+                        .foregroundColor(.orange)
+                    }
                   }
+                  .buttonStyle(PlainButtonStyle()) // Removes default button styling
+                  .contentShape(Rectangle()) // Ensures the tap area includes the entire custom content
+                } else {
+                  Button(intent: ResumeIntent()) {
+                    ZStack {
+                      Circle().fill(Color.orange.opacity(0.5))
+                      Image(systemName: "play.fill")
+                        .imageScale(.large)
+                        .foregroundColor(.orange)
+                    }
+                  }
+                  .buttonStyle(PlainButtonStyle()) // Removes default button styling
+                  .contentShape(Rectangle()) // Ensures the tap area includes the entire custom content
                 }
-                .buttonStyle(PlainButtonStyle()) // Removes default button styling
-                .contentShape(Rectangle()) // Ensures the tap area includes the entire custom content
-                Button(action: {
-                  // Define the action for your button here
-                  print("Play button pressed!")
-                }) {
+                Button(intent: ResetIntent()) {
                   ZStack {
                     Circle().fill(.gray.opacity(0.5))
                     Image(systemName: "xmark")
@@ -109,6 +120,7 @@ struct TimerWidgetLiveActivity: Widget {
                 .foregroundColor(.orange)
                 .fontWeight(.medium)
                 .monospacedDigit()
+                .transition(.identity)
               } else {
                 Text(
                   Date(
@@ -120,7 +132,8 @@ struct TimerWidgetLiveActivity: Widget {
                 .foregroundColor(.orange)
                 .fontWeight(.medium)
                 .monospacedDigit()
-                .frame(maxWidth: 64)
+                .frame(width: 60)
+                .transition(.identity)
               }
             }
             .padding()
