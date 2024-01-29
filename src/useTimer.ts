@@ -35,6 +35,7 @@ const useTimer = () => {
       const elapsedSincePaused = Date.now() - pausedTime.current;
       startTime.current = startTime.current! + elapsedSincePaused;
       pausedTime.current = null;
+      TimerWidgetModule.resume();
     } else {
       TimerWidgetModule.startLiveActivity(startTime.current / 1000);
     }
@@ -49,6 +50,7 @@ const useTimer = () => {
     removeInterval();
     if (startTime.current && !pausedTime.current) {
       pausedTime.current = Date.now();
+      TimerWidgetModule.pause(pausedTime.current / 1000);
       setElapsedTimeInMs(pausedTime.current! - startTime.current!);
     }
   }
@@ -77,4 +79,5 @@ const useTimer = () => {
     isPlaying,
   };
 };
+
 export default useTimer;

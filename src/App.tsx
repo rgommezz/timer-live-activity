@@ -20,7 +20,7 @@ function App(): React.JSX.Element {
         }}>
         <View style={{marginRight: 32}}>
           <Button
-            title={isPlaying ? 'Pause' : 'Start'}
+            title={isPlaying ? 'Pause' : 'Play'}
             onPress={isPlaying ? pause : play}
           />
         </View>
