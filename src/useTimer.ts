@@ -26,7 +26,7 @@ const useTimer = () => {
       startTime.current = Date.now();
     }
 
-    TimerWidgetModule.startLiveActivity();
+    TimerWidgetModule.startLiveActivity(startTime.current / 1000);
 
     intervalId.current = setInterval(() => {
       setElapsedTimeInMs(Date.now() - startTime.current!);

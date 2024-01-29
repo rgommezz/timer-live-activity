@@ -10,20 +10,22 @@ import ActivityKit
 
 @objc(TimerWidgetModule)
 class TimerWidgetModule: NSObject {
+  private var startedAt: Date?
 
   private func areActivitiesEnabled() -> Bool {
     return ActivityAuthorizationInfo().areActivitiesEnabled
   }
 
   @objc
-  func startLiveActivity() -> Void {
+  func startLiveActivity(_ timestamp: Double) -> Void {
+    startedAt = Date(timeIntervalSince1970: timestamp)
     if (!areActivitiesEnabled()) {
       // User disabled Live Activities for the app, nothing to do
       return
     }
     // Preparing data for the Live Activity
     let activityAttributes = TimerWidgetAttributes()
-    let contentState = TimerWidgetAttributes.ContentState(startedAt: Date())
+    let contentState = TimerWidgetAttributes.ContentState(startedAt: startedAt)
     let activityContent = ActivityContent(state: contentState,  staleDate: nil)
     do {
       // Request to start a new Live Activity with the content defined above
@@ -35,6 +37,7 @@ class TimerWidgetModule: NSObject {
 
   @objc
   func stopLiveActivity() -> Void {
+    startedAt = nil
     // A task is a unit of work that can run concurrently in a lightweight thread, managed by the Swift runtime
     // It helps to avoid blocking the main thread
     Task {
