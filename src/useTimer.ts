@@ -5,7 +5,10 @@ const {TimerWidgetModule} = NativeModules;
 
 const useTimer = () => {
   const [elapsedTimeInMs, setElapsedTimeInMs] = React.useState(0);
+  const [isPlaying, setIsPlaying] = React.useState(false);
   const startTime = React.useRef<number | null>(null);
+  const pausedTime = React.useRef<number | null>(null);
+
   const intervalId = React.useRef<NodeJS.Timeout | null>(null);
 
   const elapsedTimeInSeconds = Math.floor(elapsedTimeInMs / 1000);
@@ -16,6 +19,7 @@ const useTimer = () => {
   const value = `${minutes}:${secondTens}${secondUnits}`;
 
   function play() {
+    setIsPlaying(true);
     // Already playing, returning early
     if (intervalId.current) {
       return;
@@ -26,16 +30,34 @@ const useTimer = () => {
       startTime.current = Date.now();
     }
 
-    TimerWidgetModule.startLiveActivity(startTime.current / 1000);
+    if (pausedTime.current) {
+      // If the timer is paused, we need to update the start time
+      const elapsedSincePaused = Date.now() - pausedTime.current;
+      startTime.current = startTime.current! + elapsedSincePaused;
+      pausedTime.current = null;
+    } else {
+      TimerWidgetModule.startLiveActivity(startTime.current / 1000);
+    }
 
     intervalId.current = setInterval(() => {
       setElapsedTimeInMs(Date.now() - startTime.current!);
-    }, 1000);
+    }, 32);
+  }
+
+  function pause() {
+    setIsPlaying(false);
+    removeInterval();
+    if (startTime.current && !pausedTime.current) {
+      pausedTime.current = Date.now();
+      setElapsedTimeInMs(pausedTime.current! - startTime.current!);
+    }
   }
 
   function reset() {
+    setIsPlaying(false);
     removeInterval();
     startTime.current = null;
+    pausedTime.current = null;
     setElapsedTimeInMs(0);
     TimerWidgetModule.stopLiveActivity();
   }
@@ -49,9 +71,10 @@ const useTimer = () => {
 
   return {
     play,
+    pause,
     reset,
     value,
+    isPlaying,
   };
 };
-
 export default useTimer;

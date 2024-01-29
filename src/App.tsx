@@ -3,7 +3,7 @@ import {Button, SafeAreaView, Text, View} from 'react-native';
 import useTimer from './useTimer.ts';
 
 function App(): React.JSX.Element {
-  const {value, reset, play} = useTimer();
+  const {value, reset, play, pause, isPlaying} = useTimer();
   return (
     <SafeAreaView
       style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -19,7 +19,10 @@ function App(): React.JSX.Element {
           paddingHorizontal: 48,
         }}>
         <View style={{marginRight: 32}}>
-          <Button title="Start" onPress={play} />
+          <Button
+            title={isPlaying ? 'Pause' : 'Start'}
+            onPress={isPlaying ? pause : play}
+          />
         </View>
         <Button title="Stop" onPress={reset} />
       </View>
