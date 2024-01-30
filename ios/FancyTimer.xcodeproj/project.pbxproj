@@ -12,6 +12,11 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		505584422B63E33800A94BE3 /* TimerWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A282FA2B4ADBC9004E633F /* TimerWidgetLiveActivity.swift */; };
+		5079A0592B6911D300DD375D /* TimerWidgetLiveActivityIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5079A0582B6911D300DD375D /* TimerWidgetLiveActivityIntent.swift */; };
+		5079A05D2B69226400DD375D /* IntentPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5079A05C2B69226400DD375D /* IntentPlaceholder.swift */; };
+		5079A05F2B69514F00DD375D /* TimerEventEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5079A05E2B69514F00DD375D /* TimerEventEmitter.m */; };
+		5079A0612B6951D200DD375D /* TimerEventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5079A0602B6951D200DD375D /* TimerEventEmitter.swift */; };
 		50A282F52B4ADBC8004E633F /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A282DB2B4ACE3D004E633F /* WidgetKit.framework */; };
 		50A282F62B4ADBC8004E633F /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A282DD2B4ACE3D004E633F /* SwiftUI.framework */; };
 		50A282F92B4ADBC9004E633F /* TimerWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A282F82B4ADBC9004E633F /* TimerWidgetBundle.swift */; };
@@ -68,6 +73,10 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FancyTimer/main.m; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-FancyTimer-FancyTimerTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FancyTimer-FancyTimerTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-FancyTimer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FancyTimer.debug.xcconfig"; path = "Target Support Files/Pods-FancyTimer/Pods-FancyTimer.debug.xcconfig"; sourceTree = "<group>"; };
+		5079A0582B6911D300DD375D /* TimerWidgetLiveActivityIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerWidgetLiveActivityIntent.swift; sourceTree = "<group>"; };
+		5079A05C2B69226400DD375D /* IntentPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntentPlaceholder.swift; sourceTree = "<group>"; };
+		5079A05E2B69514F00DD375D /* TimerEventEmitter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimerEventEmitter.m; sourceTree = "<group>"; };
+		5079A0602B6951D200DD375D /* TimerEventEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerEventEmitter.swift; sourceTree = "<group>"; };
 		50A282DB2B4ACE3D004E633F /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		50A282DD2B4ACE3D004E633F /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		50A282F42B4ADBC8004E633F /* TimerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TimerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -167,6 +176,10 @@
 				50D5B13A2B4EC25400325616 /* TimerWidgetModule.swift */,
 				50D5B1392B4EC25300325616 /* FancyTimer-Bridging-Header.h */,
 				50D5B13D2B4EF18D00325616 /* TImerWidgetBridge.m */,
+				5079A0582B6911D300DD375D /* TimerWidgetLiveActivityIntent.swift */,
+				5079A05C2B69226400DD375D /* IntentPlaceholder.swift */,
+				5079A05E2B69514F00DD375D /* TimerEventEmitter.m */,
+				5079A0602B6951D200DD375D /* TimerEventEmitter.swift */,
 			);
 			path = TimerWidget;
 			sourceTree = "<group>";
@@ -491,10 +504,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5079A05F2B69514F00DD375D /* TimerEventEmitter.m in Sources */,
+				5079A0592B6911D300DD375D /* TimerWidgetLiveActivityIntent.swift in Sources */,
 				50D5B13E2B4EF18D00325616 /* TImerWidgetBridge.m in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 				50D5B13B2B4EC25400325616 /* TimerWidgetModule.swift in Sources */,
+				505584422B63E33800A94BE3 /* TimerWidgetLiveActivity.swift in Sources */,
+				5079A0612B6951D200DD375D /* TimerEventEmitter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +522,7 @@
 				50A282FB2B4ADBC9004E633F /* TimerWidgetLiveActivity.swift in Sources */,
 				50A282F92B4ADBC9004E633F /* TimerWidgetBundle.swift in Sources */,
 				50D5B13C2B4EC25400325616 /* TimerWidgetModule.swift in Sources */,
+				5079A05D2B69226400DD375D /* IntentPlaceholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
