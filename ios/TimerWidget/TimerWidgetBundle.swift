@@ -14,3 +14,4 @@ struct TimerWidgetBundle: WidgetBundle {
         TimerWidgetLiveActivity()
     }
 }
+	
