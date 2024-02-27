@@ -1,32 +1,41 @@
 import React from 'react';
-import {Button, SafeAreaView, Text, View} from 'react-native';
+import {Text, View} from 'react-native';
+import {IconButton, Provider as PaperProvider} from 'react-native-paper';
 import useTimer from './useTimer.ts';
 
 function App(): React.JSX.Element {
   const {value, reset, play, pause, isPlaying} = useTimer();
   return (
-    <SafeAreaView
-      style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <View style={{paddingVertical: 32}}>
-        <Text style={{fontSize: 80, fontVariant: ['tabular-nums']}}>
-          {value}
-        </Text>
-      </View>
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          paddingHorizontal: 48,
-        }}>
-        <View style={{marginRight: 32}}>
-          <Button
-            title={isPlaying ? 'Pause' : 'Play'}
-            onPress={isPlaying ? pause : play}
+    <PaperProvider>
+      <View style={{padding: 32, alignItems: 'center'}}>
+        <View style={{paddingTop: 32, paddingBottom: 16}}>
+          <Text style={{fontSize: 80, fontVariant: ['tabular-nums']}}>
+            {value}
+          </Text>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            paddingHorizontal: 48,
+          }}>
+          <View style={{marginRight: 32}}>
+            <IconButton
+              icon={isPlaying ? 'pause' : 'play'}
+              mode="contained"
+              size={32}
+              onPress={isPlaying ? pause : play}
+            />
+          </View>
+          <IconButton
+            icon="refresh"
+            mode="contained"
+            size={32}
+            onPress={reset}
           />
         </View>
-        <Button title="Stop" onPress={reset} />
       </View>
-    </SafeAreaView>
+    </PaperProvider>
   );
 }
 
