@@ -1,14 +1,15 @@
-## Timer Live Activity
+# Timer Live Activity
 
-This is an example project that illustrates how to architect the communication layer between a React Native application and an iOS Live Activity.
+Example project designed to demonstrate the **seamless integration between a React Native application and an iOS Live Activity**.
 
-It showcases:
-- 🍏 **Swift Native Module**: create the necessary bridging files to use the latest and greatest iOS language in your Native Modules
-- 🚀 **Live Activity API**: start, update and stop an iOS Live Activity from React Native
-- 🖌️ **Swift UI**: examine the declarative Swift UI composition model
-- :electron: **Bidirectional Communication**: invoke React Native code when an interaction happens within the live activity
+## What this project covers
 
-If you would like a detailed walkthrough, check out: **https://www.reactnative.university/blog/live-activities-native-module**
+- 🍏 **Swift Native Modules**: Learn how to craft the essential bridging files, enabling the use of Swift, the leading-edge iOS programming language, in your Native Modules.
+- 🚀 **Live Activity API**: Discover how to initiate, update, and terminate an iOS Live Activity directly from React Native, bringing dynamic content to your app's lock screen.
+- 🖌️ **SwiftUI**: Delve into the SwiftUI framework, exploring its declarative composition model that simplifies UI development with a cleaner, more concise syntax.
+- 🔌 **Bidirectional Communication**: Uncover the power of invoking React Native code through user interactions within the live activity, enabling a two-way communication stream.
+
+**Embark on the journey**: For a comprehensive guide that walks you through each step, check out this detailed walkthrough at: **https://www.reactnative.university/blog/live-activities-native-module**
 
 https://github.com/rgommezz/timer-live-activity/assets/4982414/65aea563-0618-450a-b37c-812baec3b6b0
 
