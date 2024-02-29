@@ -5,7 +5,7 @@ Example project designed to demonstrate the **seamless integration between a Rea
 ## What this project covers
 
 - 🍏 **Swift Native Modules**: Learn how to craft the essential bridging files, enabling the use of Swift, the leading-edge iOS programming language, in your Native Modules.
-- 🚀 **Live Activity API**: Discover how to initiate, update, and terminate an iOS Live Activity directly from React Native, bringing dynamic content to your app's lock screen.
+- 🚀 **Live Activity API**: Discover how to initiate, update, and terminate an iOS Live Activity directly from React Native, bringing content to both your phone's dynamic island and lock screen.
 - 🖌️ **SwiftUI**: Delve into the SwiftUI framework, exploring its declarative composition model that simplifies UI development with a cleaner, more concise syntax.
 - 🔌 **Bidirectional Communication**: Uncover the power of invoking React Native code through user interactions within the live activity, enabling a two-way communication stream.
 
