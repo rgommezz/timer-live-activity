@@ -1,7 +1,12 @@
 # Timer Live Activity
 
 Example project designed to demonstrate the **seamless integration between a React Native application and an iOS Live Activity**. 
-For a comprehensive guide that walks you through each step, check out this detailed walkthrough at: **https://www.reactnative.university/blog/live-activities-native-module**
+For a comprehensive guide that walks you through each step, check out this series:
+
+- **[Part 1 - Live Activities Premier & SwiftUI Crash Course](https://www.reactnative.university/blog/live-activities-unleashed)**
+- **[Part 2 - Timer Live Activity Native Module](https://www.reactnative.university/blog/live-activities-native-module)**
+- **[Part 3 - Live Activity Interactions](https://www.reactnative.university/blog/live-activities-interactions)**
+
 
 ## What this project covers
 
